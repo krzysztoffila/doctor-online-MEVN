@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <NavComponent />
+    <header>
+      <NavComponent />
+    </header>
     <main>
       <router-view />
     </main>
@@ -8,15 +10,15 @@
   </div>
 </template>
 <script>
-import NavComponent from '@/components/nav-component.vue'
-import Footer from '@/components/footer-component.vue'
+import NavComponent from "@/components/nav-component.vue";
+import Footer from "@/components/footer-component.vue";
 
 export default {
   components: {
     NavComponent,
     Footer,
   },
-}
+};
 </script>
 
 <style lang="scss"></style>
