@@ -19,6 +19,11 @@
           >
         </b-navbar-nav>
         <b-navbar-nav class="ms-auto navbar__right">
+          <b-nav-item href="#"
+            ><router-link to="/aboutus" class="navbar__link navbar__link-about">
+              O nas</router-link
+            ></b-nav-item
+          >
           <b-nav-item-dropdown right class="navbar__right__dropdown">
             <!-- Using 'button-content' slot -->
             <template #button-content>
@@ -50,6 +55,10 @@ export default {};
 .navbar__link {
   text-decoration: none;
   color: #000;
+}
+.navbar__link-about {
+  color: #fff;
+  margin-right: 20px;
 }
 .navbar__logo {
   margin-left: 30px;
