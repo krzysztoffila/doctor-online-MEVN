@@ -14,7 +14,7 @@
 <script>
 import NavComponent from "@/components/nav-component.vue";
 import Footer from "@/components/footer-component.vue";
-import RegisterUser from "./views/RegisterUser.vue";
+import RegisterUser from "./views/register/RegisterUser.vue";
 
 export default {
   components: {

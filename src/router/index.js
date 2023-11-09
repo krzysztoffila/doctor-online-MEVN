@@ -1,25 +1,36 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import LandingPage from '../views/LandingPage.vue'
-import RegisterUser from '../views/RegisterUser.vue'
+import RegisterUser from '../views/register/RegisterUser.vue'
+import AboutUs from '../views/AboutUs.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
-  path: '/',
-  name: 'LandingPage',
-  component: LandingPage,
-  meta: {
-    title: 'Witamy na Doctor Online!'
-  }
-}, {
-  path: '/register',
-  name: 'register',
-  component: RegisterUser,
-  meta: {
-    title: 'Rejestracja - dr Online'
-  }
-}, ]
+    path: '/',
+    name: 'LandingPage',
+    component: LandingPage,
+    meta: {
+      title: 'Witamy na Doctor Online!'
+    }
+  },
+  {
+    path: '/aboutus',
+    name: 'AboutUs',
+    component: AboutUs,
+    meta: {
+      title: 'O nas - dr Online!'
+    }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterUser,
+    meta: {
+      title: 'Rejestracja - dr Online'
+    }
+  },
+]
 
 const router = new VueRouter({
   mode: 'history',
