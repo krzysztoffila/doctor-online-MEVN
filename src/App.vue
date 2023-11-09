@@ -4,7 +4,9 @@
       <NavComponent />
     </header>
     <main>
-      <router-view />
+      <router-view>
+        <RegisterUser />
+      </router-view>
     </main>
     <Footer />
   </div>
@@ -12,10 +14,12 @@
 <script>
 import NavComponent from "@/components/nav-component.vue";
 import Footer from "@/components/footer-component.vue";
+import RegisterUser from "./views/RegisterUser.vue";
 
 export default {
   components: {
     NavComponent,
+    RegisterUser,
     Footer,
   },
 };

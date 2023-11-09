@@ -1,6 +1,7 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import LandingPage from '../views/LandingPage.vue'
+import RegisterUser from '../views/RegisterUser.vue'
 
 Vue.use(VueRouter)
 
@@ -9,9 +10,16 @@ const routes = [{
   name: 'LandingPage',
   component: LandingPage,
   meta: {
-    title: 'Welcome to Doctor Online!'
+    title: 'Witamy na Doctor Online!'
   }
-}]
+}, {
+  path: '/register',
+  name: 'register',
+  component: RegisterUser,
+  meta: {
+    title: 'Rejestracja - dr Online'
+  }
+}, ]
 
 const router = new VueRouter({
   mode: 'history',

@@ -9,10 +9,13 @@
           dolore mollitia earum eum quaerat, adipisci fugit blanditiis laborum
           odio facilis.
         </p>
-
-        <a href="#" class="hero__button"
-          ><b-button pill variant="info">Zarejestruj wizytę</b-button></a
-        >
+        <router-link to="/register">
+          <a href="#" class="hero__button"
+            ><b-button pill variant="info"
+              >Zarejestruj się juz dziś!</b-button
+            ></a
+          >
+        </router-link>
       </div>
     </div>
   </div>
