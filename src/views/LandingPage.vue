@@ -4,10 +4,10 @@
       <div class="hero__text">
         <h1>Witamy na Doctor Online!</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim nemo
-          esse, assumenda perferendis ad quod, repellendus eos quos temporibus
-          dolore mollitia earum eum quaerat, adipisci fugit blanditiis laborum
-          odio facilis.
+          Witaj w przyszłości opieki zdrowotnej! Nasza platforma umożliwia Ci
+          szybkie i wygodne rezerwowanie wizyt u lekarza online. Niezależnie od
+          tego, czy potrzebujesz konsultacji, recepty czy porady medycznej,
+          jesteśmy tu, by Ci pomóc.
         </p>
         <router-link to="/register">
           <a href="#" class="hero__button"
@@ -48,11 +48,15 @@ export default {
   color: #0dcaf0;
   padding: 300px 50px;
 }
-.hero p {
-  color: #055160;
-  margin-bottom: 3em;
-}
 .hero__text {
   width: 62%;
+}
+.hero__text h1 {
+  font-size: 2.5em;
+}
+.hero__text p {
+  color: #055160;
+  margin-bottom: 3em;
+  font-size: 1.3em;
 }
 </style>
