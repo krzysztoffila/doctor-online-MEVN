@@ -1,9 +1,7 @@
-const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
-router.post('/register', async (req, res) => {
+exports.registerUser = async (req, res) => {
   try {
     const existingUser = await User.findOne({
       email: req.body.email
@@ -38,6 +36,4 @@ router.post('/register', async (req, res) => {
       error: 'Wystąpił błąd podczas rejestracji użytkownika.'
     });
   }
-});
-
-module.exports = router;
+};
