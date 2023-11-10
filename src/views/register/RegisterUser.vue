@@ -2,206 +2,248 @@
   <div class="container register">
     <div class="row">
       <div class="col-md-3 register-left">
-        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
         <h3>Witamy</h3>
         <p>Posiadasz juz konto?</p>
         <input type="submit" name="" value="Zaloguj" />
         <br />
       </div>
-      <div class="col-md-9 register-right">
-        <div class="tab-content" id="myTabContent">
-          <div
-            class="tab-pane fade show active"
-            id="home"
-            role="tabpanel"
-            aria-labelledby="home-tab"
-          >
-            <h3 class="register-heading">Wypełnij Dane:</h3>
-            <div class="row register-form">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Imię *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Nazwisko *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="Hasło *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="Potwierdź hasło *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <div class="maxl">
-                    <label class="radio inline">
-                      <input type="radio" name="gender" value="male" checked />
-                      <span> Mezczyzna </span>
-                    </label>
-                    <label class="radio inline">
-                      <input type="radio" name="gender" value="female" />
-                      <span>Kobieta </span>
-                    </label>
+      <form @submit.prevent="submitRegistration">
+        <div class="col-md-9 register-right">
+          <div class="tab-content" id="myTabContent">
+            <div
+              class="tab-pane fade show active"
+              id="home"
+              role="tabpanel"
+              aria-labelledby="home-tab"
+            >
+              <h3 class="register-heading">Wypełnij Dane:</h3>
+              <div class="row register-form">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      v-model="userData.firstName"
+                      type="text"
+                      class="form-control"
+                      placeholder="Imię *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      v-model="userData.lastName"
+                      type="text"
+                      class="form-control"
+                      placeholder="Nazwisko *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      v-model="userData.password"
+                      type="password"
+                      class="form-control"
+                      placeholder="Hasło *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      v-model="userData.confirmPassword"
+                      type="password"
+                      class="form-control"
+                      placeholder="Potwierdź hasło *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <div class="maxl">
+                      <label class="radio inline">
+                        <input
+                          type="radio"
+                          v-model="userData.gender"
+                          value="male"
+                          checked
+                        />
+                        <span> Mezczyzna </span>
+                      </label>
+                      <label class="radio inline">
+                        <input
+                          type="radio"
+                          v-model="userData.gender"
+                          value="female"
+                        />
+                        <span>Kobieta </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      v-model="userData.email"
+                      type="email"
+                      class="form-control"
+                      placeholder="Twój Email *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      v-model="userData.phoneNumber"
+                      type="text"
+                      minlength="9"
+                      maxlength="9"
+                      name="txtEmpPhone"
+                      class="form-control"
+                      placeholder="Numer telefonu *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      v-model="userData.pesel"
+                      type="text"
+                      minlength="11"
+                      maxlength="11"
+                      name="txtPesel"
+                      class="form-control"
+                      placeholder="PESEL *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      v-model="userData.city"
+                      type="text"
+                      class="form-control"
+                      placeholder="Miasto *"
+                      value=""
+                    />
+                  </div>
                   <input
-                    type="email"
-                    class="form-control"
-                    placeholder="Twój Email *"
-                    value=""
+                    type="submit"
+                    class="btnRegister"
+                    value="Rejestruję się"
                   />
                 </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    minlength="10"
-                    maxlength="10"
-                    name="txtEmpPhone"
-                    class="form-control"
-                    placeholder="Numer telefonu *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    minlength="11"
-                    maxlength="11"
-                    name="txtPesel"
-                    class="form-control"
-                    placeholder="PESEL *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Miasto *"
-                    value=""
-                  />
-                </div>
-                <input
-                  type="submit"
-                  class="btnRegister"
-                  value="Rejestruję się"
-                />
               </div>
             </div>
-          </div>
-          <div
-            class="tab-pane fade show"
-            id="profile"
-            role="tabpanel"
-            aria-labelledby="profile-tab"
-          >
-            <h3 class="register-heading">Apply as a Hirer</h3>
-            <div class="row register-form">
-              <div class="col-md-6">
-                <div class="form-group">
+            <div
+              class="tab-pane fade show"
+              id="profile"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+            >
+              <h3 class="register-heading">Apply as a Hirer</h3>
+              <div class="row register-form">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="First Name *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Last Name *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="email"
+                      class="form-control"
+                      placeholder="Email *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      maxlength="9"
+                      minlength="9"
+                      class="form-control"
+                      placeholder="Phone *"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Password *"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Confirm Password *"
+                      value=""
+                    />
+                  </div>
                   <input
-                    type="text"
-                    class="form-control"
-                    placeholder="First Name *"
-                    value=""
+                    type="submit"
+                    class="btnRegister"
+                    value="Rejestruję się"
                   />
                 </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Last Name *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="email"
-                    class="form-control"
-                    placeholder="Email *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    maxlength="10"
-                    minlength="10"
-                    class="form-control"
-                    placeholder="Phone *"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="Password *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="Confirm Password *"
-                    value=""
-                  />
-                </div>
-                <div class="form-group">
-                  <select class="form-control">
-                    <option class="hidden" selected disabled>
-                      Please select your Sequrity Question
-                    </option>
-                    <option>What is your Birthdate?</option>
-                    <option>What is Your old Phone Number</option>
-                    <option>What is your Pet Name?</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="`Answer *"
-                    value=""
-                  />
-                </div>
-                <input type="submit" class="btnRegister" value="Register" />
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      userData: {
+        firstName: "",
+        lastName: "",
+        password: "",
+        confirmPassword: "",
+        gender: "male",
+        email: "",
+        phoneNumber: "",
+        pesel: "",
+        city: "",
+      },
+    };
+  },
+
+  methods: {
+    async submitRegistration() {
+      try {
+        const response = await this.$axios.post(
+          "/auth/register",
+          this.userData,
+          { withCredentials: true }
+        );
+
+        console.log(response.data);
+
+        if (response.data.success) {
+          this.$router.push("/login");
+        } else {
+          console.error(response.data.error);
+        }
+      } catch (error) {
+        console.error("Błąd rejestracji:", error);
+      }
+    },
+  },
+};
 </script>
 
 <style>

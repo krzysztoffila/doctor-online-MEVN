@@ -3,6 +3,7 @@ require('dotenv').config({
 });
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const User = require('./models/User');
 const Doctor = require('./models/Doctor');
@@ -10,10 +11,7 @@ const Appointment = require('./models/Appointment');
 
 const authRoutes = require('./routes/auth');
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on('error', (err) => {
   console.error('Błąd połączenia z bazą danych: ' + err);
@@ -23,7 +21,15 @@ mongoose.connection.on('connected', () => {
 });
 
 const app = express();
-const port = process.env.PORT || 3000;
+
+const corsOptions = {
+  origin: 'http://localhost:8080',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -33,13 +39,11 @@ app.use(bodyParser.urlencoded({
 // Trasy dla autoryzacji
 app.use('/auth', authRoutes);
 
-
-
-// Trasa główna
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

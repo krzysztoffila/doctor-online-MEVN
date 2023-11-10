@@ -37,3 +37,34 @@ exports.registerUser = async (req, res) => {
     });
   }
 };
+
+exports.loginUser = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      email: req.body.email
+    });
+    if (!user) {
+      return res.status(401).json({
+        error: 'Nieprawidłowy adres email lub hasło.'
+      });
+    }
+
+    const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({
+        error: 'Nieprawidłowy adres email lub hasło.'
+      });
+    }
+
+    //[TODO:] TUTAJ TOKEN JWT!!!
+
+    res.status(200).json({
+      message: 'Użytkownik pomyślnie zalogowany.'
+    });
+  } catch (error) {
+    console.error('Błąd logowania:', error);
+    res.status(500).json({
+      error: 'Wystąpił błąd podczas logowania użytkownika.'
+    });
+  }
+};
