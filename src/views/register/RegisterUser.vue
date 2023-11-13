@@ -207,7 +207,9 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
+  ...mapMutations("Toast", ["addToast"]),
   data() {
     return {
       userData: {
@@ -232,7 +234,10 @@ export default {
           this.userData,
           { withCredentials: true }
         );
-
+        this.$router.push("/");
+        this.addToast({
+          message: "Udało się poprawnie zarejestować.",
+        });
         console.log(response.data);
 
         if (response.data.success) {
