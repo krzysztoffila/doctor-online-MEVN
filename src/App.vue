@@ -2,6 +2,7 @@
   <div id="app">
     <header>
       <NavComponent />
+      <Toast />
     </header>
     <main>
       <router-view>
@@ -15,10 +16,12 @@
 import NavComponent from "@/components/nav-component.vue";
 import Footer from "@/components/footer-component.vue";
 import RegisterUser from "./views/register/RegisterUser.vue";
+import Toast from "@/components/toast/toast-component.vue";
 
 export default {
   components: {
     NavComponent,
+    Toast,
     RegisterUser,
     Footer,
   },
