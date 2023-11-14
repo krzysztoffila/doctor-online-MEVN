@@ -21,9 +21,9 @@ import Toast from "@/components/toast/toast-component.vue";
 export default {
   components: {
     NavComponent,
-    Toast,
     RegisterUser,
     Footer,
+    Toast,
   },
 };
 </script>

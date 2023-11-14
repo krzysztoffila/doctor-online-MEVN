@@ -235,18 +235,15 @@ export default {
           { withCredentials: true }
         );
         this.$router.push("/");
-        this.addToast({
+        this.$store.commit("Toast/addToast", {
           message: "Udało się poprawnie zarejestować.",
+          variant: "success",
         });
-        console.log(response.data);
-
-        if (response.data.success) {
-          this.$router.push("/login");
-        } else {
-          console.error(response.data.error);
-        }
       } catch (error) {
-        console.error("Błąd rejestracji:", error);
+        this.$store.commit("Toast/addToast", {
+          message: error,
+          variant: "danger",
+        });
       }
     },
   },
