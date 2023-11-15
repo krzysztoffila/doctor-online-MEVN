@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import LandingPage from '../views/LandingPage.vue'
 import RegisterUser from '../views/register/RegisterUser.vue'
+import LoginUser from '../views/login/LoginUser.vue'
 import AboutUs from '../views/AboutUs.vue'
 
 Vue.use(VueRouter)
@@ -28,6 +29,14 @@ const routes = [{
     component: RegisterUser,
     meta: {
       title: 'Rejestracja - dr Online'
+    }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginUser,
+    meta: {
+      title: 'Zaloguj się - dr Online'
     }
   },
 ]
