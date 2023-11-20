@@ -5,9 +5,7 @@
       <Toast />
     </header>
     <main>
-      <router-view>
-        <RegisterUser />
-      </router-view>
+      <router-view> </router-view>
     </main>
     <Footer />
   </div>
@@ -15,13 +13,11 @@
 <script>
 import NavComponent from "@/components/nav-component.vue";
 import Footer from "@/components/footer-component.vue";
-import RegisterUser from "./views/register/RegisterUser.vue";
 import Toast from "@/components/toast/toast-component.vue";
 
 export default {
   components: {
     NavComponent,
-    RegisterUser,
     Footer,
     Toast,
   },
