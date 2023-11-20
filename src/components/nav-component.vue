@@ -39,7 +39,21 @@
                 >Twoje Wizyty</router-link
               ></b-dropdown-item
             >
-            <b-dropdown-item href="#">Wyloguj</b-dropdown-item>
+            <b-dropdown-item href="#">
+              <b-navbar-nav v-if="!isLogged">
+                <b-nav-item>
+                  <router-link to="/login" class="navbar__link"
+                    >Zaloguj</router-link
+                  >
+                </b-nav-item>
+              </b-navbar-nav>
+
+              <b-navbar-nav v-else>
+                <b-nav-item @click="logout">
+                  <router-link to="#" class="navbar__link">Wyloguj</router-link>
+                </b-nav-item>
+              </b-navbar-nav>
+            </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -48,7 +62,15 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters, mapActions } from "vuex";
+export default {
+  computed: {
+    ...mapGetters("AuthUser", ["isLogged"]),
+  },
+  methods: {
+    ...mapActions("AuthUser", ["logout"]),
+  },
+};
 </script>
 
 <style>
