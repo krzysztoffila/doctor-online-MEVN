@@ -3,7 +3,7 @@
     <form class="login">
       <input type="text" placeholder="Email" />
       <input type="password" placeholder="Hasło" />
-      <b-button pill variant="info">Zaloguj</b-button>
+      <b-button pill variant="success">Zaloguj</b-button>
     </form>
   </div>
 </template>
@@ -13,30 +13,27 @@ export default {};
 </script>
 
 <style lang="scss">
-/* Colors */
-$greenSeaweed: rgb(0, 225, 255);
-$blueQueen: rgb(0, 121, 123);
-$redFire: rgb(12, 120, 150);
-
-/* Fonts */
+$info: rgb(0, 225, 255);
+$black: rgb(0, 0, 0);
+$white: rgb(255, 255, 255);
 $fontAsap: "Asap", sans-serif;
+
 .flex-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Minimalna wysokość kontenera to 100% widoku */
+  min-height: 100vh;
 }
 
 .login__page {
-  flex: 1; /* Elastyczny element, aby wypełnić dostępną przestrzeń */
+  flex: 1;
 }
 .login__page {
-  // background-color: blue;
   font-family: $fontAsap;
 }
 
 .login {
   overflow: hidden;
-  background-color: white;
+  background-color: #0dcaf0;
   padding: 40px 30px 30px 30px;
   border-radius: 10px;
   position: absolute;
@@ -45,7 +42,7 @@ $fontAsap: "Asap", sans-serif;
   width: 400px;
   transform: translate(-50%, -50%);
   transition: transform 300ms, box-shadow 300ms;
-  box-shadow: 5px 10px 10px rgba($greenSeaweed, 0.2);
+  box-shadow: 5px 10px 10px rgba($info, 0.2);
 
   &::before,
   &::after {
@@ -63,14 +60,14 @@ $fontAsap: "Asap", sans-serif;
   &::before {
     left: 40%;
     bottom: -130%;
-    background-color: rgba($blueQueen, 0.15);
+    background-color: rgba($black, 0.15);
     animation: wawes 6s infinite linear;
   }
 
   &::after {
     left: 35%;
     bottom: -125%;
-    background-color: rgba($greenSeaweed, 0.2);
+    background-color: rgba($info, 0.2);
     animation: wawes 7s infinite;
   }
 
