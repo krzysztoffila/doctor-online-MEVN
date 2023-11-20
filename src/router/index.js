@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import LandingPage from '../views/LandingPage.vue'
-import RegisterUser from '../views/register/RegisterUser.vue'
-import LoginUser from '../views/login/LoginUser.vue'
-import AboutUs from '../views/AboutUs.vue'
-
+import LandingPage from '@/views/LandingPage.vue'
+import RegisterUser from '@/views/register/RegisterUser.vue'
+import LoginUser from '@/views/login/LoginUser.vue'
+import AboutUs from '@/views/AboutUs.vue'
+import Visits from '@/views/visits/Visits.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -37,6 +37,14 @@ const routes = [{
     component: LoginUser,
     meta: {
       title: 'Zaloguj się - dr Online'
+    }
+  },
+  {
+    path: '/visits',
+    name: 'visits',
+    component: Visits,
+    meta: {
+      title: 'Twoje Wizyty - dr Online'
     }
   },
 ]

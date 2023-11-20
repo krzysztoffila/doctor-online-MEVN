@@ -1,15 +1,49 @@
 <template>
   <div class="login__page flex-container">
-    <form class="login">
-      <input type="text" placeholder="Email" />
-      <input type="password" placeholder="Hasło" />
-      <b-button pill variant="success">Zaloguj</b-button>
+    <form class="login" @submit.prevent="submitLogin">
+      <h3 class="login__header">Zaloguj Się:</h3>
+      <input v-model="email" type="text" placeholder="Email" />
+      <input v-model="password" type="password" placeholder="Hasło" />
+      <b-button pill variant="success" type="submit">Zaloguj</b-button>
     </form>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapMutations, mapActions } from "vuex";
+
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    ...mapMutations("Toast", ["addToast"]),
+    ...mapActions("AuthUser", ["loginUser"]),
+    async submitLogin() {
+      try {
+        await this.loginUser({
+          email: this.email,
+          password: this.password,
+        });
+        this.$router.push("/visits");
+        this.addToast({
+          message: "Zalogowano pomyślnie",
+          variant: "success",
+        });
+        console.log(`Zalogowano pomyślnie: ${this.email}`);
+      } catch (error) {
+        console.error("Błąd logowania:", error);
+        this.addToast({
+          message: "Nieprawidłowy email lub hasło.",
+          variant: "danger",
+        });
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -23,7 +57,9 @@ $fontAsap: "Asap", sans-serif;
   flex-direction: column;
   min-height: 100vh;
 }
-
+.login__header {
+  color: $white;
+}
 .login__page {
   flex: 1;
 }

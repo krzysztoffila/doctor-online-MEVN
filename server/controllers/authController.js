@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 exports.registerUser = async (req, res) => {
@@ -56,10 +57,15 @@ exports.loginUser = async (req, res) => {
       });
     }
 
-    //[TODO:] TUTAJ TOKEN JWT!!!
+    const token = jwt.sign({
+      userId: user._id
+    }, 'secretKey', {
+      expiresIn: '1h'
+    });
 
     res.status(200).json({
-      message: 'Użytkownik pomyślnie zalogowany.'
+      message: 'Użytkownik pomyślnie zalogowany.',
+      token: token,
     });
   } catch (error) {
     console.error('Błąd logowania:', error);

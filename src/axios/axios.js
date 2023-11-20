@@ -5,7 +5,7 @@ const axiosOptions = {
   baseURL: 'http://localhost:3000',
   headers: {
     'Access-Control-Allow-Origin': '*',
-    'Content-type': 'application/json'
+    'Content-type': 'application/json',
   }
 };
 
