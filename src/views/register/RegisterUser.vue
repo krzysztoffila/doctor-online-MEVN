@@ -207,6 +207,7 @@
 </template>
 
 <script>
+import { axiosApi } from "@/axios/axios";
 import { mapMutations } from "vuex";
 export default {
   ...mapMutations("Toast", ["addToast"]),
@@ -227,24 +228,33 @@ export default {
   },
 
   methods: {
-    async submitRegistration() {
-      try {
-        const response = await this.$axios.post(
-          "/auth/register",
-          this.userData,
-          { withCredentials: true }
-        );
-        this.$router.push("/");
-        this.$store.commit("Toast/addToast", {
-          message: "Udało się poprawnie zarejestować.",
-          variant: "success",
+    submitRegistration() {
+      axiosApi
+        .post("/auth/register", this.userData)
+        .then((response) => {
+          this.$store
+            .dispatch("AuthUser/register", response.data.data)
+            .then(() => {
+              this.$router.push("/");
+              this.$store.commit("Toast/addToast", {
+                message: "Udało się poprawnie zarejestować.",
+                variant: "success",
+              });
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+          const errors = error.response?.data.error;
+          if (errors === undefined) {
+            return alert("Wystąpił błąd. Przepraszamy");
+          }
+          const errMsg = errors.reduce((acc, cur) => {
+            return `${acc} ${cur.message} \n`;
+          }, []);
+          this.$store.commit("Toast/addToast", {
+            message: errMsg,
+          });
         });
-      } catch (error) {
-        this.$store.commit("Toast/addToast", {
-          message: error,
-          variant: "danger",
-        });
-      }
     },
   },
 };
