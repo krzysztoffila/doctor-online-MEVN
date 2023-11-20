@@ -254,7 +254,6 @@ export default {
 .register {
   border: 1px solid black;
   background: -webkit-linear-gradient(left, #0dcafd, #00c6ff);
-  margin-top: 3%;
   padding: 3%;
 }
 .register-left {
