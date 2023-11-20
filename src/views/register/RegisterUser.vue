@@ -5,7 +5,9 @@
         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
         <h3>Witamy</h3>
         <p>Posiadasz juz konto?</p>
-        <input type="submit" name="" value="Zaloguj" />
+        <router-link to="/login">
+          <input type="submit" name="" value="Zaloguj" />
+        </router-link>
         <br />
       </div>
       <form
