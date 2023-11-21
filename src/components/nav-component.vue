@@ -40,19 +40,23 @@
               ></b-dropdown-item
             >
             <b-dropdown-item href="#">
-              <b-navbar-nav v-if="!isLogged">
-                <b-nav-item>
-                  <router-link to="/login" class="navbar__link"
-                    >Zaloguj</router-link
-                  >
-                </b-nav-item>
-              </b-navbar-nav>
+              <router-link v-if="!isLogged" class="nav__login-link" to="/login">
+                <b-icon
+                  class="nav__login-icon"
+                  icon="person-fill"
+                  height="20px"
+                ></b-icon>
+                <span class="nav__login-text">Login</span>
+              </router-link>
 
-              <b-navbar-nav v-else>
-                <b-nav-item @click="logout">
-                  <router-link to="#" class="navbar__link">Wyloguj</router-link>
-                </b-nav-item>
-              </b-navbar-nav>
+              <router-link
+                v-else
+                to="#"
+                class="nav__login-link"
+                @click="logout"
+              >
+                <b-icon icon="arrow-bar-left"></b-icon> Logout
+              </router-link>
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

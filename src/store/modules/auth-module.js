@@ -28,6 +28,11 @@ export default {
             console.log("Ustawiono token:", token);
             state.token = token;
         },
+
+        clearUser(state) {
+            state.user = {};
+            state.token = null;
+        },
     },
     actions: {
         register({ commit, state }, registerData) {
@@ -62,9 +67,11 @@ export default {
                 throw error;
             }
         },
+        clearUser({ commit }) {
+            commit("clearUser");
+        },
         async logout({ commit }) {
-            commit("setToken", null);
-            commit("setUser", {});
+            commit("clearUser");
             setCookie("token", "", -1);
             setCookie("user", "", -1);
             commit(
