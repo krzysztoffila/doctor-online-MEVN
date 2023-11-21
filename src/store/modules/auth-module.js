@@ -33,8 +33,20 @@ export default {
             state.user = {};
             state.token = null;
         },
+        updateUser(state, user) {
+            state.user = user;
+        },
     },
     actions: {
+        async fetchUser({ commit }) {
+            try {
+                const response = await axiosApi.get("/auth/user");
+                const user = response.data;
+                commit("updateUser", user);
+            } catch (error) {
+                console.error("Błąd pobierania danych użytkownika:", error);
+            }
+        },
         register({ commit, state }, registerData) {
             if (registerData && registerData.token) {
                 commit("setToken", registerData.token);
@@ -48,7 +60,7 @@ export default {
                 );
             }
         },
-        async loginUser({ commit }, loginData) {
+        async loginUser({ commit, dispatch }, loginData) {
             try {
                 const response = await axiosApi.post("/auth/login", loginData);
                 const token = response.data?.token;
@@ -60,6 +72,9 @@ export default {
                 commit("setUser", user);
 
                 setCookie("token", token, 1000000);
+
+                // Pobierz aktualne dane użytkownika
+                dispatch("fetchUser");
 
                 return response.data;
             } catch (error) {
