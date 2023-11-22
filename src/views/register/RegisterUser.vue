@@ -169,11 +169,9 @@ export default {
   methods: {
     async submitRegistration() {
       try {
-        const response = await this.$axios.post(
-          "/auth/register",
-          this.userData,
-          { withCredentials: true }
-        );
+        const response = await axiosApi.post("/auth/register", this.userData, {
+          withCredentials: true,
+        });
         this.$router.push("/login");
         this.$store.commit("Toast/addToast", {
           message: response.data,
