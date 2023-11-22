@@ -187,11 +187,9 @@ export default {
           if (errors === undefined) {
             return alert("Wystąpił błąd. Przepraszamy");
           }
-          const errMsg = errors.reduce((acc, cur) => {
-            return `${acc} ${cur.message} \n`;
-          }, []);
           this.$store.commit("Toast/addToast", {
-            message: errMsg,
+            message: error,
+            variant: "danger",
           });
         });
     },
