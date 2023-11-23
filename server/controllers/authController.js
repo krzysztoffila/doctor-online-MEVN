@@ -1,14 +1,15 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/User');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 exports.registerUser = async (req, res) => {
   try {
     const existingUser = await User.findOne({
-      email: req.body.email
+      email: req.body.email,
     });
     if (existingUser) {
       return res.status(400).json({
-        error: 'Użytkownik o tym adresie email już istnieje.'
+        error: "Użytkownik o tym adresie email już istnieje.",
       });
     }
 
@@ -28,43 +29,47 @@ exports.registerUser = async (req, res) => {
     await newUser.save();
 
     res.status(201).json({
-      message: 'Użytkownik został pomyślnie zarejestrowany.'
+      message: "Użytkownik został pomyślnie zarejestrowany.",
     });
   } catch (error) {
-    console.error('Błąd rejestracji:', error);
+    console.error("Błąd rejestracji:", error);
     res.status(500).json({
-      error: 'Wystąpił błąd podczas rejestracji użytkownika.'
+      error: "Wystąpił błąd podczas rejestracji użytkownika.",
     });
   }
 };
 
 exports.loginUser = async (req, res) => {
   try {
-    const user = await User.findOne({
-      email: req.body.email
-    });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(401).json({
-        error: 'Nieprawidłowy adres email lub hasło.'
-      });
+      return res
+        .status(401)
+        .json({ error: "Nieprawidłowy adres email lub hasło." });
     }
 
-    const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+    const passwordMatch = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
     if (!passwordMatch) {
-      return res.status(401).json({
-        error: 'Nieprawidłowy adres email lub hasło.'
-      });
+      return res
+        .status(401)
+        .json({ error: "Nieprawidłowy adres email lub hasło." });
     }
 
-    //[TODO:] TUTAJ TOKEN JWT!!!
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_PRIVATE_KEY, {
+      expiresIn: "1h",
+    });
 
     res.status(200).json({
-      message: 'Użytkownik pomyślnie zalogowany.'
+      message: "Użytkownik pomyślnie zalogowany.",
+      data: { token, userId: user._id },
     });
   } catch (error) {
-    console.error('Błąd logowania:', error);
-    res.status(500).json({
-      error: 'Wystąpił błąd podczas logowania użytkownika.'
-    });
+    console.error("Błąd logowania:", error);
+    res
+      .status(500)
+      .json({ error: "Wystąpił błąd podczas logowania użytkownika." });
   }
 };

@@ -1,15 +1,49 @@
 <template>
   <div class="login__page flex-container">
-    <form class="login">
-      <input type="text" placeholder="Email" />
-      <input type="password" placeholder="Hasło" />
-      <b-button pill variant="success">Zaloguj</b-button>
+    <form class="login" @submit.prevent="submitLogin">
+      <input v-model="userData.email" type="text" placeholder="Email" />
+      <input v-model="userData.password" type="password" placeholder="Hasło" />
+      <b-button pill variant="success" type="submit">Zaloguj</b-button>
     </form>
   </div>
 </template>
 
 <script>
-export default {};
+import { axiosApi } from "@/axios/axios";
+import { mapMutations } from "vuex";
+export default {
+  ...mapMutations("Toast", ["addToast"]),
+  data() {
+    return {
+      userData: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    submitLogin() {
+      axiosApi
+        .post("/auth/login", this.userData)
+        .then((response) => {
+          this.$store.commit("Toast/addToast", {
+            message: "Użytkownik pomyślnie zalogowany.",
+            variant: "success",
+          });
+          this.$router.push("/aboutus");
+          console.log("Zalogowano pomyślnie");
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$store.commit("Toast/addToast", {
+            message: "Błąd logowania. Sprawdź poprawność danych.",
+            variant: "error",
+          });
+          console.log("Jakiś problem hasło, mail");
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss">

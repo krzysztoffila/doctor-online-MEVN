@@ -1,18 +1,18 @@
-import axios from 'axios';
-import getCookie from '@/helpers/get-cookie';
+import axios from "axios";
+import getCookie from "@/helpers/get-cookie";
 
 const axiosOptions = {
-  baseURL: 'http://localhost:3000',
+  baseURL: "http://localhost:3000",
   headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Content-type': 'application/json'
-  }
+    "Access-Control-Allow-Origin": "*",
+    "Content-type": "application/json",
+  },
 };
 
-const tokenJWT = getCookie('token');
+const tokenJWT = getCookie("token");
 
 if (tokenJWT) {
   axiosOptions.headers.Authorization = `Bearer ${tokenJWT}`;
 }
 
-export const axiosApi = axios.create(axiosOptions)
+export const axiosApi = axios.create(axiosOptions);
