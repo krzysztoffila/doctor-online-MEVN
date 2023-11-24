@@ -39,7 +39,16 @@
                 >Twoje Wizyty</router-link
               ></b-dropdown-item
             >
-            <b-dropdown-item href="#">Wyloguj</b-dropdown-item>
+            <b-dropdown-item href="#">
+              <router-link class="nav__login-link" to="/login">
+                <b-icon
+                  class="nav__login-icon"
+                  icon="person-fill"
+                  height="20px"
+                ></b-icon>
+                <span class="nav__login-text">Login</span>
+              </router-link>
+            </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>

@@ -57,7 +57,9 @@ $fontAsap: "Asap", sans-serif;
   flex-direction: column;
   min-height: 100vh;
 }
-
+.login__header {
+  color: $white;
+}
 .login__page {
   flex: 1;
 }
