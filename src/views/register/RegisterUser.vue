@@ -167,33 +167,22 @@ export default {
   },
 
   methods: {
-    submitRegistration() {
-      axiosApi
-        .post("/auth/register", this.userData)
-        .then((response) => {
-          this.$store
-            .dispatch("AuthUser/register", response.data.data)
-            .then(() => {
-              this.$router.push("/");
-              this.$store.commit("Toast/addToast", {
-                message: "Udało się poprawnie zarejestować.",
-                variant: "success",
-              });
-            });
-        })
-        .catch((error) => {
-          console.error(error);
-          const errors = error.response?.data.error;
-          if (errors === undefined) {
-            return alert("Wystąpił błąd. Przepraszamy");
-          }
-          const errMsg = errors.reduce((acc, cur) => {
-            return `${acc} ${cur.message} \n`;
-          }, []);
-          this.$store.commit("Toast/addToast", {
-            message: errMsg,
-          });
+    async submitRegistration() {
+      try {
+        const response = await axiosApi.post("/auth/register", this.userData, {
+          withCredentials: true,
         });
+        this.$router.push("/login");
+        this.$store.commit("Toast/addToast", {
+          message: response.data,
+          variant: "success",
+        });
+      } catch (error) {
+        this.$store.commit("Toast/addToast", {
+          message: `Błąd rejestracji: ${error}`,
+          variant: "danger",
+        });
+      }
     },
   },
 };

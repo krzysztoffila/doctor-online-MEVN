@@ -40,22 +40,13 @@
               ></b-dropdown-item
             >
             <b-dropdown-item href="#">
-              <router-link v-if="!isLogged" class="nav__login-link" to="/login">
+              <router-link class="nav__login-link" to="/login">
                 <b-icon
                   class="nav__login-icon"
                   icon="person-fill"
                   height="20px"
                 ></b-icon>
                 <span class="nav__login-text">Login</span>
-              </router-link>
-
-              <router-link
-                v-else
-                to="#"
-                class="nav__login-link"
-                @click="logout"
-              >
-                <b-icon icon="arrow-bar-left"></b-icon> Logout
               </router-link>
             </b-dropdown-item>
           </b-nav-item-dropdown>
@@ -66,15 +57,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-export default {
-  computed: {
-    ...mapGetters("AuthUser", ["isLogged"]),
-  },
-  methods: {
-    ...mapActions("AuthUser", ["logout"]),
-  },
-};
+export default {};
 </script>
 
 <style>
