@@ -78,6 +78,18 @@ exports.loginUser = async (req, res) => {
     }
 };
 
-exports.logoutUser = (req, res) => {
-    res.status(200).json({ message: "Użytkownik został wylogowany pomyślnie." });
+exports.logoutUser = async (req, res) => {
+    try {
+        // Sprawdź, czy użytkownik jest zalogowany
+        if (!req.userData || !req.userData.userId) {
+            return res.status(401).json({ message: 'Nieautoryzowany dostęp.' });
+        }
+
+        // Tutaj możesz dodać dodatkową logikę, jeśli chcesz, np. usuwanie tokenu sesji, itp.
+
+        res.status(200).json({ message: 'Użytkownik został wylogowany pomyślnie.' });
+    } catch (error) {
+        console.error('Błąd podczas wylogowywania:', error);
+        res.status(500).json({ error: 'Wystąpił błąd podczas wylogowywania użytkownika.' });
+    }
 };

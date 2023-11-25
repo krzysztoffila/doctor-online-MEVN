@@ -41,5 +41,4 @@ router.post('/register', async (req, res) => {
     }
 });
 router.post('/login', authController.loginUser);
-router.post('/logout', authMiddleware, authController.logoutUser);
-module.exports = router;
+router.post('/logout', authController.logoutUser);

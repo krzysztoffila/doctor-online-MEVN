@@ -1,3 +1,5 @@
+import { axiosApi } from '@/axios/axios';
+
 export default {
     namespaced: true,
     state: { isAuthenticated: false, },
@@ -6,5 +8,10 @@ export default {
             state.isAuthenticated = value;
         },
     },
-    actions: {},
+    actions: {
+        async logout({ commit }) {
+            await axiosApi.post("/auth/logout");
+            commit('setIsAuthenticated', false);
+        },
+    },
 };

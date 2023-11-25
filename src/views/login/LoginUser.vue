@@ -34,7 +34,7 @@ export default {
           // Wylogowanie użytkownika
           await axiosApi.post("/auth/logout");
           this.$store.commit("Auth/setIsAuthenticated", false);
-          this.$router.push("/login"); // Przekieruj użytkownika na stronę logowania
+          this.$router.push("/login");
           this.$store.commit("Toast/addToast", {
             message: "Użytkownik został wylogowany pomyślnie.",
             variant: "success",
