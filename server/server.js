@@ -38,34 +38,22 @@ app.use(
         extended: true,
     })
 );
-
-// Trasy dla autoryzacji
 app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
-// Endpoint do pobierania danych zalogowanego użytkownika
 app.get("/auth/user", async (req, res) => {
     try {
-        // Pobierz token z nagłówka żądania
         const token = req.headers.authorization;
-        console.log(token);
-        // Zdekoduj token JWT, aby uzyskać identyfikator użytkownika
         const decodedToken = jwt.verify(token, "secretKey");
-        console.log(decodedToken);
         const userId = decodedToken.userId;
-        console.log(userId);
-
-        // Pobierz dane użytkownika z bazy danych
         const user = await User.findById(userId);
 
-        // Jeśli użytkownik nie istnieje, zwróć błąd 404
         if (!user) {
             return res.status(404).json({ error: "Użytkownik nie znaleziony" });
         }
 
-        // Jeśli użytkownik istnieje, zwróć jego dane
         res.status(200).json(user);
     } catch (error) {
         console.error("Błąd pobierania danych użytkownika:", error);
