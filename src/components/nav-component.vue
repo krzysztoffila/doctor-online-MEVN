@@ -25,7 +25,6 @@
             ></b-nav-item
           >
           <b-nav-item-dropdown right class="navbar__right__dropdown">
-            <!-- Using 'button-content' slot -->
             <template #button-content>
               <em>Panel Pacjenta</em>
             </template>
@@ -40,13 +39,13 @@
               ></b-dropdown-item
             >
             <b-dropdown-item href="#">
-              <router-link class="nav__login-link" to="/login">
+              <router-link class="navbar__login" to="/login">
                 <b-icon
-                  class="nav__login-icon"
+                  class="navbar__login-icon"
                   icon="person-fill"
                   height="20px"
                 ></b-icon>
-                <span class="nav__login-text">Login</span>
+                <span>Zaloguj się</span>
               </router-link>
             </b-dropdown-item>
           </b-nav-item-dropdown>
@@ -61,7 +60,8 @@ export default {};
 </script>
 
 <style>
-.navbar__link {
+.navbar__link,
+.navbar__login {
   text-decoration: none;
   color: #000;
 }
@@ -75,5 +75,9 @@ export default {};
 }
 .navbar__right__dropdown {
   margin-right: 30px;
+}
+
+.navbar__login-icon {
+  margin-right: 10px;
 }
 </style>
