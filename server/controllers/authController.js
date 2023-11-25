@@ -77,3 +77,7 @@ exports.loginUser = async (req, res) => {
         });
     }
 };
+
+exports.logoutUser = (req, res) => {
+    res.status(200).json({ message: "Użytkownik został wylogowany pomyślnie." });
+};
