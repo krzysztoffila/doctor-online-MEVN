@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const authMiddleware = require('../middleware/authMiddleware');
 const authController = require('../controllers/authController')
 
 router.post('/register', async (req, res) => {
@@ -41,4 +42,6 @@ router.post('/register', async (req, res) => {
     }
 });
 router.post('/login', authController.loginUser);
-router.post('/logout', authController.logoutUser);
+router.post('/logout', authMiddleware, authController.logoutUser);
+
+module.exports = router;
