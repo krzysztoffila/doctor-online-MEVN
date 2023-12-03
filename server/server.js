@@ -23,13 +23,15 @@ mongoose.connection.on("connected", () => {
 });
 
 const app = express();
-
 const corsOptions = {
     origin: "http://localhost:8080",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
 };
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
@@ -39,6 +41,7 @@ app.use(
     })
 );
 app.use(cookieParser()); // Dodana linijka
+
 app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {

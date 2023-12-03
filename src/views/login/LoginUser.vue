@@ -22,35 +22,39 @@ export default {
       },
     };
   },
+
   methods: {
     async submitLogin() {
       try {
-        // Logowanie użytkownika
-        const response = await axiosApi.post("/auth/login", this.userData);
-        const token = response.data.data.token;
-
-        // Ustaw token w ciasteczku
-        document.cookie = `token=${token}; path=/`;
-        // Aktualizacja stanu aplikacji
-        this.$store.commit("Auth/setIsAuthenticated", true);
-
-        // Wyświetlenie komunikatu
-        this.$store.commit("Toast/addToast", {
-          message: "Użytkownik pomyślnie zalogowany.",
-          variant: "success",
-        });
-
-        // Przekierowanie na inną stronę
-        this.$router.push("/aboutus");
-
-        console.log("Zalogowano pomyślnie", response);
+        if (this.isAuthenticated) {
+          // Wylogowanie użytkownika
+          await axiosApi.post("/auth/logout");
+          this.$store.commit("Auth/setIsAuthenticated", false);
+          this.$router.push("/login");
+          this.$store.commit("Toast/addToast", {
+            message: "Użytkownik został wylogowany pomyślnie.",
+            variant: "success",
+          });
+        } else {
+          // Logowanie użytkownika
+          const response = await axiosApi.post("/auth/login", this.userData, {
+            withCredentials: true,
+          });
+          this.$store.commit("Auth/setIsAuthenticated", true);
+          this.$router.push("/aboutus");
+          this.$store.commit("Toast/addToast", {
+            message: "Użytkownik pomyślnie zalogowany.",
+            variant: "success",
+          });
+          console.log("Zalogowano pomyślnie", response);
+        }
       } catch (error) {
-        // Obsługa błędu
         console.error(error);
         this.$store.commit("Toast/addToast", {
           message: "Błąd logowania. Sprawdź poprawność danych.",
           variant: "error",
         });
+        console.log("Jakiś problem hasło, mail");
       }
     },
   },

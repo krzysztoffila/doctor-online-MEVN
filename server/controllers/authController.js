@@ -67,7 +67,21 @@ exports.loginUser = async (req, res) => {
                 .json({ error: "Nieprawidłowy adres email lub hasło." });
         }
 
-        const token = generateToken(user._id);
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_PRIVATE_KEY,
+            {
+                expiresIn: "1h",
+            }
+        );
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            sameSite: "lax",
+            maxAge: 60 * 60 * 1000, // 1 hour expiration
+            secure: process.env.NODE_ENV === "production", // Set to true in production
+        });
+
         res.status(200).json({
             message: "Użytkownik pomyślnie zalogowany.",
             data: { token, userId: user._id },
