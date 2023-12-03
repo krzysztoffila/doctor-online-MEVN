@@ -2,6 +2,18 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+const handleError = (res, error, errorMessage) => {
+    console.error(errorMessage, error);
+    return res.status(500).json({
+        error: errorMessage,
+    });
+};
+const generateToken = (userId) => {
+    return jwt.sign({ userId }, process.env.JWT_PRIVATE_KEY, {
+        expiresIn: "1h",
+    });
+};
+
 exports.registerUser = async (req, res) => {
     try {
         const existingUser = await User.findOne({
@@ -32,10 +44,7 @@ exports.registerUser = async (req, res) => {
             message: "Użytkownik został pomyślnie zarejestrowany.",
         });
     } catch (error) {
-        console.error("Błąd rejestracji:", error);
-        res.status(500).json({
-            error: "Wystąpił błąd podczas rejestracji użytkownika.",
-        });
+        handleError(res, error, "Błąd rejestracji użytkownika:");
     }
 };
 
@@ -66,14 +75,34 @@ exports.loginUser = async (req, res) => {
             }
         );
 
+        res.cookie("token", token, {
+            httpOnly: true,
+            sameSite: "lax",
+            maxAge: 60 * 60 * 1000,
+            secure: process.env.NODE_ENV === "production", // Set to true in production
+        });
+
         res.status(200).json({
             message: "Użytkownik pomyślnie zalogowany.",
             data: { token, userId: user._id },
         });
     } catch (error) {
-        console.error("Błąd logowania:", error);
-        res.status(500).json({
-            error: "Wystąpił błąd podczas logowania użytkownika.",
+        handleError(res, error, "Błąd logowania użytkownika:");
+    }
+};
+
+exports.logoutUser = async (req, res) => {
+    try {
+        if (!req.userData || !req.userData.userId) {
+            return res.status(401).json({ message: "Nieautoryzowany dostęp." });
+        }
+
+        // TODO Tutaj dodać dodatkową logikę: usuwanie tokenu sesji, itp.
+
+        res.status(200).json({
+            message: "Użytkownik został wylogowany pomyślnie.",
         });
+    } catch (error) {
+        handleError(res, error, "Błąd podczas wylogowywania użytkownika:");
     }
 };

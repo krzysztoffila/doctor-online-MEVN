@@ -3,7 +3,7 @@
     <form class="login" @submit.prevent="submitLogin">
       <input v-model="userData.email" type="text" placeholder="Email" />
       <input v-model="userData.password" type="password" placeholder="Hasło" />
-      <b-button pill variant="success" type="submit">Zaloguj</b-button>
+      <b-button pill variant="success" type="submit"> Zaloguj </b-button>
     </form>
   </div>
 </template>
@@ -11,6 +11,7 @@
 <script>
 import { axiosApi } from "@/axios/axios";
 import { mapMutations } from "vuex";
+
 export default {
   ...mapMutations("Toast", ["addToast"]),
   data() {
@@ -21,31 +22,44 @@ export default {
       },
     };
   },
+
   methods: {
-    submitLogin() {
-      axiosApi
-        .post("/auth/login", this.userData)
-        .then((response) => {
+    async submitLogin() {
+      try {
+        if (this.isAuthenticated) {
+          // Wylogowanie użytkownika
+          await axiosApi.post("/auth/logout");
+          this.$store.commit("Auth/setIsAuthenticated", false);
+          this.$router.push("/login");
+          this.$store.commit("Toast/addToast", {
+            message: "Użytkownik został wylogowany pomyślnie.",
+            variant: "success",
+          });
+        } else {
+          // Logowanie użytkownika
+          const response = await axiosApi.post("/auth/login", this.userData, {
+            withCredentials: true,
+          });
+          this.$store.commit("Auth/setIsAuthenticated", true);
+          this.$router.push("/aboutus");
           this.$store.commit("Toast/addToast", {
             message: "Użytkownik pomyślnie zalogowany.",
             variant: "success",
           });
-          this.$router.push("/aboutus");
-          console.log("Zalogowano pomyślnie");
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$store.commit("Toast/addToast", {
-            message: "Błąd logowania. Sprawdź poprawność danych.",
-            variant: "error",
-          });
-          console.log("Jakiś problem hasło, mail");
+          console.log("Zalogowano pomyślnie", response);
+        }
+      } catch (error) {
+        console.error(error);
+        this.$store.commit("Toast/addToast", {
+          message: "Błąd logowania. Sprawdź poprawność danych.",
+          variant: "error",
         });
+        console.log("Jakiś problem hasło, mail");
+      }
     },
   },
 };
 </script>
-
 <style lang="scss">
 $info: rgb(0, 225, 255);
 $black: rgb(0, 0, 0);

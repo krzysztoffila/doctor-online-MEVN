@@ -38,7 +38,7 @@
                 >Twoje Wizyty</router-link
               ></b-dropdown-item
             >
-            <b-dropdown-item href="#">
+            <b-dropdown-item v-if="!isAuthenticated" href="#">
               <router-link class="navbar__login" to="/login">
                 <b-icon
                   class="navbar__login-icon"
@@ -48,6 +48,10 @@
                 <span>Zaloguj się</span>
               </router-link>
             </b-dropdown-item>
+
+            <b-dropdown-item v-else @click="logout">
+              <span>Wyloguj się</span>
+            </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -56,7 +60,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.Auth.isAuthenticated;
+    },
+  },
+  methods: {
+    async logout() {
+      await this.$store.dispatch("Auth/logout");
+    },
+  },
+};
 </script>
 
 <style>
