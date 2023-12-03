@@ -2,6 +2,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+const handleError = (res, error, errorMessage) => {
+    console.error(errorMessage, error);
+    return res.status(500).json({
+        error: errorMessage,
+    });
+};
+
 exports.registerUser = async (req, res) => {
     try {
         const existingUser = await User.findOne({
@@ -32,10 +39,7 @@ exports.registerUser = async (req, res) => {
             message: "Użytkownik został pomyślnie zarejestrowany.",
         });
     } catch (error) {
-        console.error("Błąd rejestracji:", error);
-        res.status(500).json({
-            error: "Wystąpił błąd podczas rejestracji użytkownika.",
-        });
+        handleError(res, error, "Błąd rejestracji użytkownika:");
     }
 };
 
@@ -71,10 +75,7 @@ exports.loginUser = async (req, res) => {
             data: { token, userId: user._id },
         });
     } catch (error) {
-        console.error("Błąd logowania:", error);
-        res.status(500).json({
-            error: "Wystąpił błąd podczas logowania użytkownika.",
-        });
+        handleError(res, error, "Błąd logowania użytkownika:");
     }
 };
 
@@ -91,9 +92,6 @@ exports.logoutUser = async (req, res) => {
             message: "Użytkownik został wylogowany pomyślnie.",
         });
     } catch (error) {
-        console.error("Błąd podczas wylogowywania:", error);
-        res.status(500).json({
-            error: "Wystąpił błąd podczas wylogowywania użytkownika.",
-        });
+        handleError(res, error, "Błąd podczas wylogowywania użytkownika:");
     }
 };
