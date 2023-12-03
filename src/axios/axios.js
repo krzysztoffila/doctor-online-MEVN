@@ -11,10 +11,8 @@ const axiosOptions = {
     withCredentials: true,
 };
 
-// Pobierz token z ciasteczka
 const tokenJWT = getCookie("token");
 
-// Dodaj token do nagłówków, jeśli istnieje
 if (tokenJWT) {
     axiosOptions.headers.Authorization = `Bearer ${tokenJWT}`;
 }

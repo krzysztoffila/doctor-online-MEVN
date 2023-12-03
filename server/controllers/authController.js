@@ -78,7 +78,7 @@ exports.loginUser = async (req, res) => {
         res.cookie("token", token, {
             httpOnly: true,
             sameSite: "lax",
-            maxAge: 60 * 60 * 1000, // 1 hour expiration
+            maxAge: 60 * 60 * 1000,
             secure: process.env.NODE_ENV === "production", // Set to true in production
         });
 
@@ -93,12 +93,11 @@ exports.loginUser = async (req, res) => {
 
 exports.logoutUser = async (req, res) => {
     try {
-        // Sprawdź, czy użytkownik jest zalogowany
         if (!req.userData || !req.userData.userId) {
             return res.status(401).json({ message: "Nieautoryzowany dostęp." });
         }
 
-        // Tutaj możesz dodać dodatkową logikę, jeśli chcesz, np. usuwanie tokenu sesji, itp.
+        // TODO Tutaj dodać dodatkową logikę: usuwanie tokenu sesji, itp.
 
         res.status(200).json({
             message: "Użytkownik został wylogowany pomyślnie.",

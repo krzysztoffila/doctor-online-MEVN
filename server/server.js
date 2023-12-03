@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const User = require("./models/User");
 const Doctor = require("./models/Doctor");
 const Appointment = require("./models/Appointment");
-const cookieParser = require("cookie-parser"); // Dodana linijka
+const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/auth");
 
@@ -40,7 +40,7 @@ app.use(
         extended: true,
     })
 );
-app.use(cookieParser()); // Dodana linijka
+app.use(cookieParser());
 
 app.use("/auth", authRoutes);
 
@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
 });
 app.get("/auth/user", async (req, res) => {
     try {
-        const token = req.cookies.token; // Zmiana pobierania tokena z nagłówka na ciasteczko
+        const token = req.cookies.token;
         const decodedToken = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
         const userId = decodedToken.userId;
         const user = await User.findById(userId);
