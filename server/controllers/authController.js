@@ -8,6 +8,11 @@ const handleError = (res, error, errorMessage) => {
         error: errorMessage,
     });
 };
+const generateToken = (userId) => {
+    return jwt.sign({ userId }, process.env.JWT_PRIVATE_KEY, {
+        expiresIn: "1h",
+    });
+};
 
 exports.registerUser = async (req, res) => {
     try {
@@ -62,14 +67,7 @@ exports.loginUser = async (req, res) => {
                 .json({ error: "Nieprawidłowy adres email lub hasło." });
         }
 
-        const token = jwt.sign(
-            { userId: user._id },
-            process.env.JWT_PRIVATE_KEY,
-            {
-                expiresIn: "1h",
-            }
-        );
-
+        const token = generateToken(user._id);
         res.status(200).json({
             message: "Użytkownik pomyślnie zalogowany.",
             data: { token, userId: user._id },

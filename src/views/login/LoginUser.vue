@@ -31,33 +31,45 @@ export default {
     async submitLogin() {
       try {
         if (this.isAuthenticated) {
-          // Wylogowanie użytkownika
-          await axiosApi.post("/auth/logout");
-          this.$store.commit("Auth/setIsAuthenticated", false);
-          this.$router.push("/login");
-          this.$store.commit("Toast/addToast", {
-            message: "Użytkownik został wylogowany pomyślnie.",
-            variant: "success",
-          });
+          await this.logoutUser();
         } else {
-          // Logowanie użytkownika
-          const response = await axiosApi.post("/auth/login", this.userData);
-          this.$store.commit("Auth/setIsAuthenticated", true);
-          this.$router.push("/aboutus");
-          this.$store.commit("Toast/addToast", {
-            message: "Użytkownik pomyślnie zalogowany.",
-            variant: "success",
-          });
-          console.log("Zalogowano pomyślnie", response);
+          await this.loginUser();
         }
       } catch (error) {
-        console.error(error);
-        this.$store.commit("Toast/addToast", {
-          message: "Błąd logowania. Sprawdź poprawność danych.",
-          variant: "error",
-        });
-        console.log("Jakiś problem hasło, mail");
+        this.handleError(error, "Błąd logowania. Sprawdź poprawność danych.");
       }
+    },
+    async loginUser() {
+      const response = await axiosApi.post("/auth/login", this.userData);
+      this.updateAuthState(
+        true,
+        "/aboutus",
+        "Użytkownik pomyślnie zalogowany."
+      );
+      console.log("Zalogowano pomyślnie", response);
+    },
+    async logoutUser() {
+      await axiosApi.post("/auth/logout");
+      this.updateAuthState(
+        false,
+        "/login",
+        "Użytkownik został wylogowany pomyślnie."
+      );
+    },
+    updateAuthState(isAuthenticated, route, successMessage) {
+      this.$store.commit("Auth/setIsAuthenticated", isAuthenticated);
+      this.$router.push(route);
+      this.$store.commit("Toast/addToast", {
+        message: successMessage,
+        variant: "success",
+      });
+    },
+    handleError(error, errorMessage) {
+      console.error(error);
+      this.$store.commit("Toast/addToast", {
+        message: errorMessage,
+        variant: "error",
+      });
     },
   },
 };
