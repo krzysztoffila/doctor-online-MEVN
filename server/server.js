@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const User = require("./models/User");
 const Doctor = require("./models/Doctor");
 const Appointment = require("./models/Appointment");
+const cookieParser = require("cookie-parser"); // Dodana linijka
 
 const authRoutes = require("./routes/auth");
 
@@ -31,13 +32,13 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
         extended: true,
     })
 );
+app.use(cookieParser()); // Dodana linijka
 app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
@@ -45,8 +46,8 @@ app.get("/", (req, res) => {
 });
 app.get("/auth/user", async (req, res) => {
     try {
-        const token = req.headers.authorization;
-        const decodedToken = jwt.verify(token, "secretKey");
+        const token = req.cookies.token; // Zmiana pobierania tokena z nagłówka na ciasteczko
+        const decodedToken = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
         const userId = decodedToken.userId;
         const user = await User.findById(userId);
 
@@ -62,6 +63,7 @@ app.get("/auth/user", async (req, res) => {
         });
     }
 });
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

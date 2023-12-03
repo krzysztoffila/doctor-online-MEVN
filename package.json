@@ -12,6 +12,7 @@
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
     "bootstrap-vue": "^2.23.1",
+    "cookie-parser": "^1.4.6",
     "core-js": "^3.8.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

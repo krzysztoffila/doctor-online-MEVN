@@ -3,22 +3,17 @@
     <form class="login" @submit.prevent="submitLogin">
       <input v-model="userData.email" type="text" placeholder="Email" />
       <input v-model="userData.password" type="password" placeholder="Hasło" />
-      <b-button pill variant="success" type="submit">
-        {{ isAuthenticated ? "Wyloguj" : "Zaloguj" }}
-      </b-button>
+      <b-button pill variant="success" type="submit"> Zaloguj </b-button>
     </form>
   </div>
 </template>
 
 <script>
 import { axiosApi } from "@/axios/axios";
-import { mapMutations, mapState } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   ...mapMutations("Toast", ["addToast"]),
-  computed: {
-    ...mapState("Auth", ["isAuthenticated"]),
-  },
   data() {
     return {
       userData: {
@@ -30,51 +25,37 @@ export default {
   methods: {
     async submitLogin() {
       try {
-        if (this.isAuthenticated) {
-          await this.logoutUser();
-        } else {
-          await this.loginUser();
-        }
+        // Logowanie użytkownika
+        const response = await axiosApi.post("/auth/login", this.userData);
+        const token = response.data.data.token;
+
+        // Ustaw token w ciasteczku
+        document.cookie = `token=${token}; path=/`;
+        // Aktualizacja stanu aplikacji
+        this.$store.commit("Auth/setIsAuthenticated", true);
+
+        // Wyświetlenie komunikatu
+        this.$store.commit("Toast/addToast", {
+          message: "Użytkownik pomyślnie zalogowany.",
+          variant: "success",
+        });
+
+        // Przekierowanie na inną stronę
+        this.$router.push("/aboutus");
+
+        console.log("Zalogowano pomyślnie", response);
       } catch (error) {
-        this.handleError(error, "Błąd logowania. Sprawdź poprawność danych.");
+        // Obsługa błędu
+        console.error(error);
+        this.$store.commit("Toast/addToast", {
+          message: "Błąd logowania. Sprawdź poprawność danych.",
+          variant: "error",
+        });
       }
-    },
-    async loginUser() {
-      const response = await axiosApi.post("/auth/login", this.userData);
-      this.updateAuthState(
-        true,
-        "/aboutus",
-        "Użytkownik pomyślnie zalogowany."
-      );
-      console.log("Zalogowano pomyślnie", response);
-    },
-    async logoutUser() {
-      await axiosApi.post("/auth/logout");
-      this.updateAuthState(
-        false,
-        "/login",
-        "Użytkownik został wylogowany pomyślnie."
-      );
-    },
-    updateAuthState(isAuthenticated, route, successMessage) {
-      this.$store.commit("Auth/setIsAuthenticated", isAuthenticated);
-      this.$router.push(route);
-      this.$store.commit("Toast/addToast", {
-        message: successMessage,
-        variant: "success",
-      });
-    },
-    handleError(error, errorMessage) {
-      console.error(error);
-      this.$store.commit("Toast/addToast", {
-        message: errorMessage,
-        variant: "error",
-      });
     },
   },
 };
 </script>
-
 <style lang="scss">
 $info: rgb(0, 225, 255);
 $black: rgb(0, 0, 0);
