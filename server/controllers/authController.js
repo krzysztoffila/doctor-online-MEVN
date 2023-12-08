@@ -96,7 +96,7 @@ exports.logoutUser = async (req, res) => {
         if (!req.userData || !req.userData.userId) {
             return res.status(401).json({ message: "Nieautoryzowany dostęp." });
         }
-
+        res.clearCookie("token");
         // TODO Tutaj dodać dodatkową logikę: usuwanie tokenu sesji, itp.
 
         res.status(200).json({

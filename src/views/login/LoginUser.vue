@@ -1,9 +1,11 @@
 <template>
   <div class="login__page flex-container">
-    <form class="login" @submit.prevent="submitLogin">
+    <form class="login" @submit.prevent="submitForm">
       <input v-model="userData.email" type="text" placeholder="Email" />
       <input v-model="userData.password" type="password" placeholder="Hasło" />
-      <b-button pill variant="success" type="submit"> Zaloguj </b-button>
+      <b-button pill variant="success" type="submit">{{
+        isAuthenticated ? "Wyloguj" : "Zaloguj"
+      }}</b-button>
     </form>
   </div>
 </template>
@@ -23,30 +25,21 @@ export default {
     };
   },
 
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.Auth.isAuthenticated;
+    },
+  },
+
   methods: {
-    async submitLogin() {
+    async submitForm() {
       try {
         if (this.isAuthenticated) {
           // Wylogowanie użytkownika
-          await axiosApi.post("/auth/logout");
-          this.$store.commit("Auth/setIsAuthenticated", false);
-          this.$router.push("/login");
-          this.$store.commit("Toast/addToast", {
-            message: "Użytkownik został wylogowany pomyślnie.",
-            variant: "success",
-          });
+          await this.logoutUser();
         } else {
           // Logowanie użytkownika
-          const response = await axiosApi.post("/auth/login", this.userData, {
-            withCredentials: true,
-          });
-          this.$store.commit("Auth/setIsAuthenticated", true);
-          this.$router.push("/aboutus");
-          this.$store.commit("Toast/addToast", {
-            message: "Użytkownik pomyślnie zalogowany.",
-            variant: "success",
-          });
-          console.log("Zalogowano pomyślnie", response);
+          await this.loginUser();
         }
       } catch (error) {
         console.error(error);
@@ -56,6 +49,30 @@ export default {
         });
         console.log("Jakiś problem hasło, mail");
       }
+    },
+
+    async loginUser() {
+      const response = await axiosApi.post("/auth/login", this.userData, {
+        withCredentials: true,
+      });
+      this.$store.commit("Auth/setIsAuthenticated", true);
+      this.$router.push("/aboutus");
+      this.$store.commit("Toast/addToast", {
+        message: "Użytkownik pomyślnie zalogowany.",
+        variant: "success",
+      });
+      console.log("Zalogowano pomyślnie", response);
+    },
+
+    async logoutUser() {
+      await axiosApi.post("/auth/logout");
+      this.$store.commit("Auth/setIsAuthenticated", false);
+      this.$router.push("/login");
+      this.$store.commit("Toast/addToast", {
+        message: "Użytkownik został wylogowany pomyślnie.",
+        variant: "success",
+      });
+      console.log("Wylogowano użytkownika");
     },
   },
 };
