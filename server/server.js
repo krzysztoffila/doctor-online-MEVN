@@ -28,12 +28,12 @@ const corsOptions = {
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
+    allowedHeaders: "Content-Type,Authorization",
 };
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
@@ -43,6 +43,8 @@ app.use(
 app.use(cookieParser());
 
 app.use("/auth", authRoutes);
+app.options("/auth/login", cors(corsOptions));
+app.options("/auth/logout", cors(corsOptions));
 
 app.get("/", (req, res) => {
     res.send("Hello World!");

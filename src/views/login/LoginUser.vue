@@ -35,10 +35,8 @@ export default {
     async submitForm() {
       try {
         if (this.isAuthenticated) {
-          // Wylogowanie użytkownika
           await this.logoutUser();
         } else {
-          // Logowanie użytkownika
           await this.loginUser();
         }
       } catch (error) {
@@ -65,14 +63,21 @@ export default {
     },
 
     async logoutUser() {
-      await axiosApi.post("/auth/logout");
-      this.$store.commit("Auth/setIsAuthenticated", false);
-      this.$router.push("/login");
-      this.$store.commit("Toast/addToast", {
-        message: "Użytkownik został wylogowany pomyślnie.",
-        variant: "success",
-      });
-      console.log("Wylogowano użytkownika");
+      try {
+        await axiosApi.post("/auth/logout");
+        localStorage.removeItem("token");
+        this.$store.commit("Auth/setIsAuthenticated", false);
+        this.$router.push("/");
+        this.$store.commit("Toast/addToast", {
+          message: "Użytkownik został wylogowany pomyślnie.",
+          variant: "success",
+        });
+        alert("Użytkownik został wylogowany pomyślnie.");
+        console.log("Wylogowano użytkownika");
+      } catch (error) {
+        console.error("Błąd wylogowywania:", error);
+        console.log("Błąd wylogowywania - blok catch został wykonany");
+      }
     },
   },
 };
