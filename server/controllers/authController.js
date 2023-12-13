@@ -87,6 +87,7 @@ exports.loginUser = async (req, res) => {
             data: { token, userId: user._id },
         });
     } catch (error) {
+        console.log("[authController] Error", error, "Response: ", res);
         handleError(res, error, "Błąd logowania użytkownika:");
     }
 };
@@ -100,9 +101,11 @@ exports.logoutUser = async (req, res) => {
         // TODO Tutaj dodać dodatkową logikę: usuwanie tokenu sesji, itp.
 
         res.status(200).json({
-            message: "Użytkownik został wylogowany pomyślnie.",
+            message:
+                "[authController] - Użytkownik został wylogowany pomyślnie.",
         });
     } catch (error) {
+        console.log("[authController] Error", error, "Response: ", res);
         handleError(res, error, "Błąd podczas wylogowywania użytkownika:");
     }
 };

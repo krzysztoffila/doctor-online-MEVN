@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
 
         const decodedToken = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
         req.userData = { userId: decodedToken.userId };
+
         next();
     } catch (error) {
         return res.status(401).json({ message: "Błąd uwierzytelniania." });

@@ -50,24 +50,32 @@ export default {
     },
 
     async loginUser() {
-      const response = await axiosApi.post("/auth/login", this.userData, {
-        withCredentials: true,
-      });
-      this.$store.commit("Auth/setIsAuthenticated", true);
-      this.$router.push("/aboutus");
-      this.$store.commit("Toast/addToast", {
-        message: "Użytkownik pomyślnie zalogowany.",
-        variant: "success",
-      });
-      console.log("Zalogowano pomyślnie", response);
+      try {
+        const response = await axiosApi.post("/auth/login", this.userData, {
+          withCredentials: true,
+        });
+        this.$store.commit("Auth/setIsAuthenticated", true);
+        this.$router.push("/aboutus");
+        this.$store.commit("Toast/addToast", {
+          message: "Użytkownik pomyślnie zalogowany.",
+          variant: "success",
+        });
+        console.log("Zalogowano pomyślnie", response);
+      } catch (error) {
+        this.$store.commit("Toast/addToast", {
+          message: `Błąd logowania: ${error}`,
+          variant: "danger",
+        });
+      }
     },
 
     async logoutUser() {
       try {
-        await axiosApi.post("/auth/logout");
+        const response = await axiosApi.post("/auth/logout");
+        console.log(response);
         localStorage.removeItem("token");
         this.$store.commit("Auth/setIsAuthenticated", false);
-        this.$router.push("/");
+
         this.$store.commit("Toast/addToast", {
           message: "Użytkownik został wylogowany pomyślnie.",
           variant: "success",
@@ -77,6 +85,8 @@ export default {
       } catch (error) {
         console.error("Błąd wylogowywania:", error);
         console.log("Błąd wylogowywania - blok catch został wykonany");
+      } finally {
+        this.$router.push("/");
       }
     },
   },

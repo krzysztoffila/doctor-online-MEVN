@@ -172,7 +172,6 @@ export default {
         const response = await axiosApi.post("/auth/register", this.userData, {
           withCredentials: true,
         });
-        this.$router.push("/login");
         this.$store.commit("Toast/addToast", {
           message: response.data,
           variant: "success",
@@ -182,6 +181,8 @@ export default {
           message: `Błąd rejestracji: ${error}`,
           variant: "danger",
         });
+      } finally {
+        this.$router.push("/login");
       }
     },
   },

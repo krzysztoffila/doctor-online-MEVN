@@ -3,13 +3,14 @@ require("dotenv").config({
 });
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
 const Doctor = require("./models/Doctor");
 const Appointment = require("./models/Appointment");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const router = express.Router();
 
 const authRoutes = require("./routes/auth");
 
@@ -30,7 +31,9 @@ const corsOptions = {
     optionsSuccessStatus: 204,
     allowedHeaders: "Content-Type,Authorization",
 };
+
 app.use(cors(corsOptions));
+app.use("/auth", authRoutes);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -42,10 +45,31 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use("/auth", authRoutes);
-app.options("/auth/login", cors(corsOptions));
-app.options("/auth/logout", cors(corsOptions));
+// app.options("/auth/login", cors(corsOptions));
+// app.options("/auth/logout", cors(corsOptions));
 
+// app.options("/auth/register", cors(corsOptions));
+router.options("/login", (req, res) => {
+    res.sendStatus(200);
+});
+
+router.options("/logout", (req, res) => {
+    res.sendStatus(200);
+});
+
+router.options("/register", (req, res) => {
+    res.sendStatus(200);
+});
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+    res.header(
+        "Access-Control-Allow-Methods",
+        "GET,HEAD,PUT,PATCH,POST,DELETE"
+    );
+    res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    res.header("Access-Control-Allow-Credentials", true);
+    next();
+});
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
