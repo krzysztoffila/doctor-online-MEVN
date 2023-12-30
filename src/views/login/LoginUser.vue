@@ -1,45 +1,100 @@
 <template>
   <div class="login__page flex-container">
-    <form class="login" @submit.prevent="submitLogin">
-      <h3 class="login__header">Zaloguj Się:</h3>
-      <input v-model="email" type="text" placeholder="Email" />
-      <input v-model="password" type="password" placeholder="Hasło" />
-      <b-button pill variant="success" type="submit">Zaloguj</b-button>
+    <form class="login" @submit.prevent="submitForm">
+      <input v-model="userData.email" type="text" placeholder="Email" />
+      <input v-model="userData.password" type="password" placeholder="Hasło" />
+      <b-button pill variant="success" type="submit">{{
+        isAuthenticated ? "Wyloguj" : "Zaloguj"
+      }}</b-button>
     </form>
   </div>
 </template>
-
 <script>
-import { mapMutations, mapActions } from "vuex";
+import { axiosApi } from "@/axios/axios";
+import { mapMutations } from "vuex";
 
 export default {
+  ...mapMutations("Toast", ["addToast"]),
   data() {
     return {
-      email: "",
-      password: "",
+      userData: {
+        email: "",
+        password: "",
+      },
     };
   },
+
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.Auth.isAuthenticated;
+    },
+  },
+
   methods: {
-    ...mapMutations("Toast", ["addToast"]),
-    ...mapActions("AuthUser", ["loginUser"]),
-    async submitLogin() {
+    async submitForm() {
       try {
-        await this.loginUser({
-          email: this.email,
-          password: this.password,
+        if (this.isAuthenticated) {
+          await this.logoutUser();
+        } else {
+          await this.loginUser();
+        }
+      } catch (error) {
+        console.error(error);
+        this.$store.commit("Toast/addToast", {
+          message: "Błąd logowania. Sprawdź poprawność danych.",
+          variant: "error",
         });
-        this.$router.push("/visits");
-        this.addToast({
-          message: "Zalogowano pomyślnie",
+        console.log("Jakiś problem hasło, mail");
+      }
+    },
+
+    async loginUser() {
+      try {
+        const response = await axiosApi.post("/auth/login", this.userData, {
+          withCredentials: true,
+        });
+
+        // Zapisz token w localStorage
+        // localStorage.setItem("token", response.data.data.token);
+        const token = response.data.data.token;
+        this.setCookie("token", token, 1);
+
+        this.$store.commit("Auth/setIsAuthenticated", true);
+        this.$router.push("/aboutus");
+        this.$store.commit("Toast/addToast", {
+          message: "Użytkownik pomyślnie zalogowany.",
           variant: "success",
         });
-        console.log(`Zalogowano pomyślnie: ${this.email}`);
+        console.log("Zalogowano pomyślnie", response);
       } catch (error) {
-        console.error("Błąd logowania:", error);
-        this.addToast({
-          message: "Nieprawidłowy email lub hasło.",
+        this.$store.commit("Toast/addToast", {
+          message: `Błąd logowania: ${error}`,
           variant: "danger",
         });
+      }
+    },
+
+    async logoutUser() {
+      try {
+        const response = await axiosApi.post("/auth/logout");
+        console.log(response);
+
+        // Usuń token z localStorage
+        localStorage.removeItem("token");
+
+        this.$store.commit("Auth/setIsAuthenticated", false);
+
+        this.$store.commit("Toast/addToast", {
+          message: "Użytkownik został wylogowany pomyślnie.",
+          variant: "success",
+        });
+        alert("Użytkownik został wylogowany pomyślnie.");
+        console.log("Wylogowano użytkownika");
+      } catch (error) {
+        console.error("Błąd wylogowywania:", error);
+        console.log("Błąd wylogowywania - blok catch został wykonany");
+      } finally {
+        this.$router.push("/");
       }
     },
   },

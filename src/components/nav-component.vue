@@ -25,7 +25,6 @@
             ></b-nav-item
           >
           <b-nav-item-dropdown right class="navbar__right__dropdown">
-            <!-- Using 'button-content' slot -->
             <template #button-content>
               <em>Panel Pacjenta</em>
             </template>
@@ -39,20 +38,19 @@
                 >Twoje Wizyty</router-link
               ></b-dropdown-item
             >
-            <b-dropdown-item href="#">
-              <b-navbar-nav v-if="!isLogged">
-                <b-nav-item>
-                  <router-link to="/login" class="navbar__link"
-                    >Zaloguj</router-link
-                  >
-                </b-nav-item>
-              </b-navbar-nav>
+            <b-dropdown-item v-if="!isAuthenticated" href="#">
+              <router-link class="navbar__login" to="/login">
+                <b-icon
+                  class="navbar__login-icon"
+                  icon="person-fill"
+                  height="20px"
+                ></b-icon>
+                <span>Zaloguj się</span>
+              </router-link>
+            </b-dropdown-item>
 
-              <b-navbar-nav v-else>
-                <b-nav-item @click="logout">
-                  <router-link to="#" class="navbar__link">Wyloguj</router-link>
-                </b-nav-item>
-              </b-navbar-nav>
+            <b-dropdown-item v-else @click="logout">
+              <span>Wyloguj się</span>
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -62,19 +60,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapGetters("AuthUser", ["isLogged"]),
+    isAuthenticated() {
+      return this.$store.state.Auth.isAuthenticated;
+    },
   },
   methods: {
-    ...mapActions("AuthUser", ["logout"]),
+    async logout() {
+      await this.$store.dispatch("Auth/logout");
+    },
   },
 };
 </script>
 
 <style>
-.navbar__link {
+.navbar__link,
+.navbar__login {
   text-decoration: none;
   color: #000;
 }
@@ -88,5 +90,9 @@ export default {
 }
 .navbar__right__dropdown {
   margin-right: 30px;
+}
+
+.navbar__login-icon {
+  margin-right: 10px;
 }
 </style>

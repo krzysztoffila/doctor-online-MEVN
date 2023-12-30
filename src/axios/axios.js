@@ -10,10 +10,16 @@ const axiosOptions = {
     withCredentials: true,
 };
 
-const tokenJWT = getCookie('token');
+const axiosApi = axios.create(axiosOptions);
 
-if (tokenJWT) {
-    axiosOptions.headers.Authorization = `Bearer ${tokenJWT}`;
-}
+axiosApi.interceptors.request.use((config) => {
+    const tokenJWT = getCookie('token');
+    if (tokenJWT) {
+        config.headers.Authorization = `Bearer ${tokenJWT}`;
+    }
+    return config;
+});
 
-export const axiosApi = axios.create(axiosOptions)
+export {
+    axiosApi
+};
