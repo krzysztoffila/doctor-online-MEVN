@@ -53,37 +53,41 @@ exports.registerUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
     try {
+        console.log('Próba logowania użytkownika');
+
         const user = await User.findOne({
             email: req.body.email
         });
+
         if (!user) {
-            return res
-                .status(401)
-                .json({
-                    error: "Nieprawidłowy adres email lub hasło."
-                });
+            console.log('Nieprawidłowy adres email lub hasło.');
+            return res.status(401).json({
+                error: "Nieprawidłowy adres email lub hasło."
+            });
         }
 
         const passwordMatch = await bcrypt.compare(
             req.body.password,
             user.password
         );
+
         if (!passwordMatch) {
-            return res
-                .status(401)
-                .json({
-                    error: "Nieprawidłowy adres email lub hasło."
-                });
+            console.log('Nieprawidłowy adres email lub hasło.');
+            return res.status(401).json({
+                error: "Nieprawidłowy adres email lub hasło."
+            });
         }
 
         const token = generateToken(user._id);
 
         res.cookie("token", token, {
             httpOnly: true,
-            sameSite: process.env.NODE_ENV === "development" ? "None" : "Lax",
+            sameSite: "None",
             maxAge: 60 * 60 * 1000,
             secure: true,
         });
+
+        console.log('Użytkownik pomyślnie zalogowany.');
 
         res.status(200).json({
             message: "Użytkownik pomyślnie zalogowany.",
@@ -111,5 +115,22 @@ exports.logoutUser = async (req, res) => {
         });
     } catch (error) {
         handleError(res, error, "Błąd podczas wylogowywania użytkownika:");
+    }
+};
+exports.verifyAuth = async (req, res) => {
+    try {
+        if (!req.userData || !req.userData.userId) {
+            return res.status(401).json({
+                message: "Nieautoryzowany dostęp."
+            });
+        }
+
+        //TODO: DODATKOWE INFORMACJE O UZYTKOWNIKU
+        res.status(200).json({
+            authenticated: true,
+            userId: req.userData.userId,
+        });
+    } catch (error) {
+        handleError(res, error, "Błąd weryfikacji autoryzacji użytkownika:");
     }
 };

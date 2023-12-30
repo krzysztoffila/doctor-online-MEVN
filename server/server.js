@@ -29,6 +29,13 @@ const corsOptions = {
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
+app.use((req, res, next) => {
+    console.log('Przetwarzanie żądania:', req.method, req.url);
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Credentials', true);
+    next();
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
