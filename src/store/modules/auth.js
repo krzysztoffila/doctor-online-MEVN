@@ -17,10 +17,11 @@ export default {
             commit
         }) {
             try {
+                console.log("Próba wysłania żądania wylogowania");
                 await axiosApi.post("/auth/logout");
                 commit('setIsAuthenticated', false);
             } catch (error) {
-                console.error(error);
+                console.error("Błąd podczas wylogowywania:", error);
             }
         },
     },

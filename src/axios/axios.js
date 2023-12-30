@@ -1,10 +1,10 @@
 import axios from 'axios';
-import getCookie from '@/helpers/get-cookie';
+import Cookies from 'js-cookie';
 
 const axiosOptions = {
     baseURL: 'http://localhost:3000',
     headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'http://localhost:8080',
         'Content-type': 'application/json',
     },
     withCredentials: true,
@@ -13,7 +13,7 @@ const axiosOptions = {
 const axiosApi = axios.create(axiosOptions);
 
 axiosApi.interceptors.request.use((config) => {
-    const tokenJWT = getCookie('token');
+    const tokenJWT = Cookies.get('token') || localStorage.getItem('token');
     if (tokenJWT) {
         config.headers.Authorization = `Bearer ${tokenJWT}`;
     }

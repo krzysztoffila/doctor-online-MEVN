@@ -11,6 +11,7 @@
 </template>
 <script>
 import { axiosApi } from "@/axios/axios";
+import Cookies from "js-cookie";
 import { mapMutations } from "vuex";
 
 export default {
@@ -54,10 +55,8 @@ export default {
           withCredentials: true,
         });
 
-        // Zapisz token w localStorage
-        // localStorage.setItem("token", response.data.data.token);
         const token = response.data.data.token;
-        this.setCookie("token", token, 1);
+        localStorage.setItem("token", token);
 
         this.$store.commit("Auth/setIsAuthenticated", true);
         this.$router.push("/aboutus");

@@ -79,11 +79,18 @@ exports.loginUser = async (req, res) => {
         const token = generateToken(user._id);
 
         // Ustawienie ciasteczka w odpowiedzi
+        // res.cookie("token", token, {
+        //     httpOnly: true,
+        //     sameSite: "lax",
+        //     maxAge: 60 * 60 * 1000,
+        //     secure: process.env.NODE_ENV === "production", // Set to true in production
+        // });
+
         res.cookie("token", token, {
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: process.env.NODE_ENV === "development" ? "None" : "Lax",
             maxAge: 60 * 60 * 1000,
-            secure: process.env.NODE_ENV === "production", // Set to true in production
+            secure: true,
         });
 
         res.status(200).json({

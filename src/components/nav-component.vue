@@ -68,7 +68,12 @@ export default {
   },
   methods: {
     async logout() {
-      await this.$store.dispatch("Auth/logout");
+      try {
+        console.log("Próba wylogowania");
+        await this.$store.dispatch("Auth/logout");
+      } catch (error) {
+        console.error("Błąd podczas wylogowywania:", error);
+      }
     },
   },
 };
