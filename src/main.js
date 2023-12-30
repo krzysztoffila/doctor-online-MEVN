@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import {
-  BootstrapVue,
-  IconsPlugin
+    BootstrapVue,
+    IconsPlugin
 } from 'bootstrap-vue'
 import App from './App.vue'
 import router from './router'
@@ -20,7 +20,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
 Vue.prototype.$axios = axios;
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

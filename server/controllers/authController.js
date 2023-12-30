@@ -78,14 +78,6 @@ exports.loginUser = async (req, res) => {
 
         const token = generateToken(user._id);
 
-        // Ustawienie ciasteczka w odpowiedzi
-        // res.cookie("token", token, {
-        //     httpOnly: true,
-        //     sameSite: "lax",
-        //     maxAge: 60 * 60 * 1000,
-        //     secure: process.env.NODE_ENV === "production", // Set to true in production
-        // });
-
         res.cookie("token", token, {
             httpOnly: true,
             sameSite: process.env.NODE_ENV === "development" ? "None" : "Lax",
@@ -113,8 +105,6 @@ exports.logoutUser = async (req, res) => {
             });
         }
         res.clearCookie("token");
-
-        // ... (dodaj dodatkową logikę, jeśli potrzebna)
 
         res.status(200).json({
             message: "[authController] - Użytkownik został wylogowany pomyślnie.",

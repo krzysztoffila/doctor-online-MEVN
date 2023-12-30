@@ -13,7 +13,7 @@ const axiosOptions = {
 const axiosApi = axios.create(axiosOptions);
 
 axiosApi.interceptors.request.use((config) => {
-    const tokenJWT = Cookies.get('token') || localStorage.getItem('token');
+    const tokenJWT = Cookies.get('token');
     if (tokenJWT) {
         config.headers.Authorization = `Bearer ${tokenJWT}`;
     }

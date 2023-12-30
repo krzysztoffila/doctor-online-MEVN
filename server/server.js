@@ -34,7 +34,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// Trasy dla autoryzacji
 app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => {
@@ -43,5 +42,5 @@ app.get('/', (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`Nasłuchiwanie na porcie ${port}`);
 });
