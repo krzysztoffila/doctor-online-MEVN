@@ -1,5 +1,7 @@
 # Dr Online - Platforma Rejestracji Wizyt Medycznych
 
+# In Progress - WALCZĘ Z BACKENDEM AŻ MI SIĘ ZROBIŁY ZAKOLA
+
 ## Opis
 
 **Dr Online** to kompleksowa platforma umożliwiająca pacjentom łatwe i wygodne zarządzanie swoimi wizytami medycznymi online. Projekt został stworzony z myślą o ułatwieniu procesu rejestracji na wizyty oraz śledzenia historii wizyt pacjentów. Platforma zapewnia szybki dostęp do informacji o dostępności terminów, a także umożliwia łatwą komunikację z zarejestrowanymi lekarzami.
