@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   computed: {
     isAuthenticated() {
@@ -67,10 +69,11 @@ export default {
     },
   },
   methods: {
+    ...mapMutations("Auth", ["setIsAuthenticated"]),
     async logout() {
       try {
         console.log("Próba wylogowania");
-        await this.$store.dispatch("Auth/logout");
+        await this.$store.commit("Auth/setIsAuthenticated", false);
       } catch (error) {
         console.error("Błąd podczas wylogowywania:", error);
       }

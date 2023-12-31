@@ -9,6 +9,7 @@
     </form>
   </div>
 </template>
+
 <script>
 import { axiosApi } from "@/axios/axios";
 import Cookies from "js-cookie";
@@ -16,6 +17,8 @@ import { mapMutations } from "vuex";
 
 export default {
   ...mapMutations("Toast", ["addToast"]),
+  ...mapMutations("Auth", ["setIsAuthenticated"]),
+
   data() {
     return {
       userData: {
@@ -31,7 +34,27 @@ export default {
     },
   },
 
+  mounted() {
+    this.checkAuthenticationStatus();
+  },
+
   methods: {
+    async checkAuthenticationStatus() {
+      try {
+        const storedToken =
+          localStorage.getItem("token") || Cookies.get("token");
+        if (storedToken) {
+          console.log("User is logged in IF");
+          this.$store.commit("Auth/setIsAuthenticated", true);
+        } else {
+          console.log("User is not logged in ELSE");
+          this.$store.commit("Auth/setIsAuthenticated", false);
+        }
+      } catch (error) {
+        console.error("Error verifying authentication:", error);
+        this.$store.commit("Auth/setIsAuthenticated", false);
+      }
+    },
     async submitForm() {
       try {
         if (this.isAuthenticated) {
@@ -57,9 +80,8 @@ export default {
 
         const token = response.data.data.token;
         localStorage.setItem("token", token);
-
+        console.log("USTAWIANIE TOKENA");
         this.$store.commit("Auth/setIsAuthenticated", true);
-        this.$router.push("/aboutus");
         this.$store.commit("Toast/addToast", {
           message: "Użytkownik pomyślnie zalogowany.",
           variant: "success",
@@ -70,6 +92,12 @@ export default {
           message: `Błąd logowania: ${error}`,
           variant: "danger",
         });
+      } finally {
+        console.log("Jesteś w bloku finally loginUser");
+        if (this.isAuthenticated) {
+          console.log("Przekierowanie po ZALOGOWANIU");
+          this.$router.push("/");
+        }
       }
     },
 
@@ -80,7 +108,7 @@ export default {
 
         // Usuń token z localStorage
         localStorage.removeItem("token");
-
+        console.log("USUWANIE TOKENA");
         this.$store.commit("Auth/setIsAuthenticated", false);
 
         this.$store.commit("Toast/addToast", {
@@ -93,7 +121,11 @@ export default {
         console.error("Błąd wylogowywania:", error);
         console.log("Błąd wylogowywania - blok catch został wykonany");
       } finally {
-        this.$router.push("/");
+        console.log("Jesteś w bloku finally logoutUser");
+        if (this.isAuthenticated) {
+          console.log("Przekierowanie po wylogowaniu");
+          this.$router.push("/");
+        }
       }
     },
   },

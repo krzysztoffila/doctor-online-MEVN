@@ -16,6 +16,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
 axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.withCredentials = true;
 
 Vue.prototype.$axios = axios;
 
