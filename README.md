@@ -1,6 +1,6 @@
 # Dr Online - Platforma Rejestracji Wizyt Medycznych
 
-# In Progress - WALCZĘ Z BACKENDEM AŻ MI SIĘ ZROBIŁY ZAKOLA
+# In Progress - WALCZĘ Z BACKENDEM....
 
 ## Opis
 
