@@ -1,8 +1,8 @@
 [ENGLISH](#english)
 
-[DEUTSCH](#english)
+[DEUTSCH](#deutsch)
 
-[POLSKI](#english)
+[POLSKI](#polski)
 
 [Project Setup](#project-setup)
 
