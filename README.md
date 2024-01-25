@@ -63,6 +63,7 @@ npm run build
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## DEUTSCH
+
 # Dr Online - Plattform für die Registrierung von Arztterminen
 
 # In Arbeit - KÄMPFE MIT DEM BACKEND....
@@ -97,6 +98,7 @@ Das Projekt umfasste die Implementierung von Registrierungs- und Anmeldefunktion
 [Project Setup](#project-setup)
 
 ## POLSKI
+
 # Dr Online - Platforma Rejestracji Wizyt Medycznych
 
  # In Progress - WALCZĘ Z BACKENDEM....
