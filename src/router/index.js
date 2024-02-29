@@ -8,56 +8,56 @@ import Visits from '@/views/visits/Visits.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/',
-    name: 'LandingPage',
-    component: LandingPage,
-    meta: {
-      title: 'Witamy na Doctor Online!'
-    }
-  },
-  {
-    path: '/aboutus',
-    name: 'AboutUs',
-    component: AboutUs,
-    meta: {
-      title: 'O nas - dr Online!'
-    }
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: RegisterUser,
-    meta: {
-      title: 'Rejestracja - dr Online'
-    }
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginUser,
-    meta: {
-      title: 'Zaloguj się - dr Online'
-    }
-  },
-  {
-    path: '/visits',
-    name: 'visits',
-    component: Visits,
-    meta: {
-      title: 'Twoje Wizyty - dr Online'
-    }
-  },
+        path: '/',
+        name: 'LandingPage',
+        component: LandingPage,
+        meta: {
+            title: 'Witamy na Doctor Online!'
+        }
+    },
+    {
+        path: '/aboutus',
+        name: 'AboutUs',
+        component: AboutUs,
+        meta: {
+            title: 'O nas - dr Online!'
+        }
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: RegisterUser,
+        meta: {
+            title: 'Rejestracja - dr Online'
+        }
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: LoginUser,
+        meta: {
+            title: 'Zaloguj się - dr Online'
+        }
+    },
+    {
+        path: '/user-visits',
+        name: 'visits',
+        component: Visits,
+        meta: {
+            title: 'Twoje Wizyty - dr Online'
+        }
+    },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 });
 const DEFAULT_TITLE = 'Doctor Online';
 router.afterEach((to, from) => {
-  Vue.nextTick(() => {
-    document.title = to.meta.title || DEFAULT_TITLE;
-  });
+    Vue.nextTick(() => {
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
 });
 export default router
